@@ -1,0 +1,129 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2513
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica-Bold;\f1\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red14\green18\blue29;\red42\green49\blue64;
+\red0\green0\blue0;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;\cssrgb\c6667\c9412\c15294;\cssrgb\c21569\c25490\c31765;
+\csgray\c0\c0;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}
+{\list\listtemplateid2\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{none\}}{\leveltext\leveltemplateid101\'00;}{\levelnumbers;}\fi-360\li720\lin720 }{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid102\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li1440\lin1440 }{\listname ;}\listid2}
+{\list\listtemplateid3\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid201\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid3}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}{\listoverride\listid3\listoverridecount0\ls3}}
+\margl1440\margr1440\vieww13280\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\b\fs28 \cf2 True Speed-Off-Bat Analysis and Prediction 
+\fs24 \
+\
+
+\fs28 Overview
+\fs24 \
+
+\f1\b0 The python script takes data from the battedBallData.csv to project the \'93true\'94 average speed-off-bat from two systems, A and B, for each batter in the current season and predictions for the next season. The script utilizes the pandas library for data manipulation and the scikit-learn library for linear regression modeling. \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f0\b\fs28 \cf2 \expnd0\expndtw0\kerning0
+Methodology
+\f1\b0\fs24 \
+- batter: A numerical identifier for each batter.\
+- hittype: Categorization of the type of hit (e.g., fly ball, ground ball, line drive, popup).\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls1\ilvl0\cf2 \kerning1\expnd0\expndtw0 - t\expnd0\expndtw0\kerning0
+rue_swing_speed: The actual swing speed recorded for each swing.\
+\ls1\ilvl0\kerning1\expnd0\expndtw0 - \expnd0\expndtw0\kerning0
+predicted: The swing speed predicted by a model or algorithm.\
+\ls1\ilvl0\kerning1\expnd0\expndtw0 - \expnd0\expndtw0\kerning0
+difference: The absolute difference between the true and predicted swing speeds\
+\ls1\ilvl0\cf2 \kerning1\expnd0\expndtw0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\b\fs28 \cf2 Usage
+\fs24 \
+
+\f1\b0 Data Input:\
+- Ensure that the data is available in a CSV file named \'91battedBallData.csv\'92\
+- The data should include columns such as \'91batter\'92, \'91hittype\'92, speed_A\'92, \'91vangle_A\'92, \'92speed_B\'92, and \'91vangle_B\'92. \
+\
+
+\f0\b\fs28 Code
+\fs24 \
+Load Data:
+\f1\b0 \
+- load the batted ball data from the csv file into a pandas DataFrame, \'91df\'92\
+\
+
+\f0\b Calculate Averages:
+\f1\b0 \
+- Create a column called \'91average_speed\'92 in the \'91df\'92 to calculate the average speed-off-bat for each batter using both systems, \'91speed_A\'92 and \'91speed_B\'92.\
+- Create a new column called \'91average_vangle\'92 in the \'91df\'92 to calculate the average speed-off-bat for each batter using \'91vangle_A\'92 and \'91vangle_B\'92.\
+\
+
+\f0\b Adjust Average Speed:
+\f1\b0 \
+- Adjust the calculated average speed-off-bat, average_speed, for each batter based on the hit type (\'91hittype\'92) and the average vertical angle for each batter. \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f0\b \cf2 \expnd0\expndtw0\kerning0
+Adjust the Average Speed-off-bat based on Hit Type and Vertical Angle:
+\f1\b0 \
+- Modify the \'91average_speed\'92 column based on conditions related to hit type and the average vertical angle. \
+- If a fly ball is hit and the vertical angle is greater than 10, the average speed is multiple by 1.25 to account for the fact that fly balls are hit at a higher angle and tend to travel further than those hit at a lower angle. The launch angle of this ball is usually 25-50 degrees. \
+- If a fly ball has a vertical angle less than or equal to 10, it is multiplied by 1.15 since fly balls hit at a lower angle travel less far. The launch angle is usually 10-25 degrees. \
+- If a ground ball is hit, it is multiplied by 1.1, since ground balls travel less than fly balls. The launch angle is usually 10 degrees. \kerning1\expnd0\expndtw0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf2 \
+
+\f0\b True Swing Speed:
+\f1\b0 \
+- The true swing speed for each batter is calculated by dividing the adjusted averages by the empirical value of 1.5. \
+\
+
+\f0\b Missing Values:
+\f1\b0 \
+-  Create a SimpleImputer instance from the scikit-learn library. The missing values should be replaced with the mean of the non-missing values. \
+- The \'91true_swing_speed\'92 column from the \'91df\'92 \'91d_next_season\'92 are selected and stored in the variable \'91X\'92. \
+- \'91fit_transform\'92 is used to replace missing values in column \'91X\'92 with the mean. 
+\fs32 \expnd0\expndtw0\kerning0
+\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\b\fs24 \cf2 Linear regression
+\f1\b0 \
+- extract the target variable, \'91true_swing_speed_next_season\'92 from the \'91df\'92 \'91d_next_season\'92 and store it in variable \'91y\'92. \
+- SimpleImputer is used to replace missing values with the mean.\
+- Reshape (-1,1.), is used to reshape the one-dimensional array \'91y.values\'92 into a two -dimensional array.\
+- The fit method is used to fit the model to the training data. \cb5 The input features (X_imputed) are the imputed true swing speeds from the current season, and the target variable (y_imputed) is the imputed true swing speeds for the next season.\
+- The model estimates the coefficients that define the linear relationship between the input features and target variables. \
+
+\fs32 \cb1 \
+\pard\pardeftab720\partightenfactor0
+\ls2\ilvl1
+\f0\b\fs24 \cf2 \kerning1\expnd0\expndtw0 Prediction and Analysis:
+\f1\b0 \
+- The predict method of the trained linear regression model is used to predict the next season\'92s true swing speed bade on the imputed true swing speeds from the current season (X_imputed). \
+- The predicted values are added as a new column named \'91predicted\'92 to the DataFrame d_next_season.\
+- The difference is calculated between the predicted values and the 
+\fs32 \
+\pard\pardeftab720\partightenfactor0
+\ls2\ilvl1
+\f0\b \cf4 \expnd0\expndtw0\kerning0
+\
+\pard\pardeftab720\partightenfactor0
+\ls2\ilvl1
+\fs24 \cf2 Group and Print:
+\f1\b0 \
+- Group the DataFrame by the batter and hit type\
+- [[\'91true_swing_speed\'92, \'91predicted\'92, \'91difference\'92]]: Selects the columns for which the mean values will be calculated within each group\
+- .reset_index(): Resets the index of the resulting DF so httype and batter become regular columns. A new DF named result_df containing the mean true swing speed and difference for each unique combination of \'91batter\'92 and \'91hittype\'92 is the result. \
+\pard\pardeftab720\partightenfactor0
+\ls3\ilvl0
+\f0\b \cf0 \kerning1\expnd0\expndtw0 \
+\ls3\ilvl0
+\fs28 Results:\
+\ls3\ilvl0
+\f1\b0\fs24 The model provides some predictions that are close to the true speed-off-bat, but also provided some values that deviate significantly from the actual values. For fly balls, the model tends to underestimate true speeds since there are so many negative differences. Ground balls and line drives have smaller differences in the predictions and popups have wide ranges. 
+\f0\b \
+\
+}
